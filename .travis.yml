@@ -19,3 +19,15 @@ after_success:
   - docker push thirteen/multi-nginx 
   - docker push thirteen/multi-server
   - docker push thirteen/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-southeast-1"
+  app: "multi-docker"
+  env: "MultiDocker-env"
+  bucket_name: "elasticbeanstalk-ap-southeast-1-788241664327"
+  bucket_path: "multi-docker"
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
