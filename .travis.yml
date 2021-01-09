@@ -4,7 +4,7 @@ serviecs:
   - dockerfile
 
 before_install:
-  - docker build -t thirteen/react-test -f ./client/Dockerfile.dev
+  - docker build -t thirteen/react-test -f ./client/Dockerfile.dev .
 
 scripts:
   - docker run -e CI=true thirteen/react-test npm test
