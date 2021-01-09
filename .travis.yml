@@ -1,0 +1,21 @@
+language: generic
+sudo: required
+serviecs:
+  - dockerfile
+
+before_install:
+  - docker build -t thirteen/react-test -f ./clients/Dockerfile.dev
+
+scripts:
+  - docker run -e CI=true thirteen/react-test npm test
+
+after_success:
+  - docker build -t thirteen/multi-client ./client
+  - docker build -t thirteen/multi-nginx ./nginx
+  - docker build -t thirteen/multi-server ./server
+  - docker build -t thirteen/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push thirteen/multi-client
+  - docker push thirteen/multi-nginx 
+  - docker push thirteen/multi-server
+  - docker push thirteen/multi-worker
